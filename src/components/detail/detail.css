@@ -1,0 +1,111 @@
+.detail {
+	font-size: small;
+	flex: 1;
+
+	.user {
+		padding: 10px;
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+		border-bottom: 2px solid rgba(128, 128, 128, 0.318) !important;
+		align-items: center;
+		img {
+			height: 70px;
+			width: 70px;
+			object-fit: cover;
+			border-radius: 50%;
+		}
+	}
+
+	.info {
+		margin: 0px 10px;
+		display: flex;
+		flex-direction: column;
+
+		.option {
+			display: flex;
+			flex-direction: column;
+			margin: 10px 0;
+			.title {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+
+				img {
+					width: 35px;
+					height: 35px;
+					border-radius: 50%;
+					background-color: rgba(3, 3, 39, 0.232);
+					padding: 10px;
+					cursor: pointer;
+				}
+			}
+
+			.photos {
+				.photoItems {
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					margin: 0 10px;
+
+					.photoDetails {
+						display: flex;
+						flex-direction: row;
+						align-items: center;
+						gap: 10px;
+						img {
+							display: flex;
+							flex-direction: column;
+							width: 60px;
+							height: 60px;
+							object-fit: cover;
+							border-radius: 5px;
+							cursor: pointer;
+						}
+						span {
+							font-size: 10px;
+						}
+					}
+					img {
+						width: 20px;
+						height: 20px;
+						background-color: transparent;
+						background-color: rgba(3, 3, 39, 0.232);
+						cursor: pointer;
+					}
+				}
+			}
+		}
+		button {
+			padding: 10px;
+			width: 100px;
+			background-color: transparent;
+			border: 2px red solid;
+			color: red;
+			border-radius: 10px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			align-self: center;
+			text-align: center;
+			margin: 10px;
+			cursor: pointer;
+
+			&:hover {
+				border: 2px rgba(138, 0, 0, 0.78) solid;
+				color: rgba(138, 0, 0, 0.78);
+				transition: border 0.1s ease, color 0.1s ease;
+			}
+
+			&.logout {
+				border: 2px yellow solid;
+				color: yellow;
+				&:hover {
+					border: 2px rgba(139, 137, 0, 0.78) solid;
+					color: rgba(139, 137, 0, 0.78);
+					transition: border 0.1s ease, color 0.1s ease;
+				}
+			}
+		}
+	}
+}
