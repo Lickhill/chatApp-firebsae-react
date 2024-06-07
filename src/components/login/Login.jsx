@@ -5,11 +5,14 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 // In Login.jsx
 import { auth, db } from "../../lib/firebase";
 import { doc, setDoc } from "firebase/firestore";
+import upload from "../../lib/upload";
 const Login = () => {
 	const [avatar, setavatar] = useState({
 		file: null,
 		url: "",
 	});
+
+	const [loading, setloading] = useState(false);
 
 	const handleAvatar = (e) => {
 		console.log("hi");
@@ -23,6 +26,7 @@ const Login = () => {
 
 	const handelnotification = (e) => {
 		e.preventDefault();
+
 		const email = e.target.elements.email.value;
 		const password = e.target.elements.password.value;
 
@@ -35,6 +39,7 @@ const Login = () => {
 
 	const handelRegister = async (e) => {
 		e.preventDefault();
+		setloading(true);
 		const formData = new FormData(e.target);
 		const { username, email, password } = Object.fromEntries(formData);
 		try {
@@ -43,9 +48,11 @@ const Login = () => {
 				email,
 				password
 			);
+			const imgUrl = await upload(avatar.file);
 			await setDoc(doc(db, "users", res.user.uid), {
 				username,
 				email,
+				avatar: imgUrl,
 				id: res.user.uid,
 				blocked: [],
 			});
@@ -57,10 +64,14 @@ const Login = () => {
 		} catch (err) {
 			console.log(err);
 			toast.error(err.message);
+		} finally {
+			setloading(false);
 		}
 	};
 
-	const handelLogin = (e) => {};
+	const handelLogin = async (e) => {
+		e.preventDefault();
+	};
 
 	return (
 		<div className="login">
@@ -73,7 +84,9 @@ const Login = () => {
 						name="password"
 						placeholder="Password"
 					/>
-					<button className="button">Sign in</button>
+					<button disabled={loading} className="button">
+						{loading ? "Loading..." : "Sign in"}
+					</button>
 				</form>
 			</div>
 			<div className="seperator"></div>
@@ -96,7 +109,9 @@ const Login = () => {
 						name="password"
 						placeholder="Password"
 					/>
-					<button className="button">Sign up</button>
+					<button disabled={loading} className="button">
+						{loading ? "Loading..." : "Sign in"}
+					</button>
 				</form>
 			</div>
 		</div>

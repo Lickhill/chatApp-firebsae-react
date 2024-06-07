@@ -49,6 +49,10 @@
 				border-radius: 10px;
 				background-color: rgba(28, 12, 100, 0.777);
 				color: white;
+				&:disabled {
+					cursor: not-allowed;
+					background-color: rgba(28, 12, 100, 0.503);
+				}
 			}
 
 			button:hover {
