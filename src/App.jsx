@@ -22,6 +22,7 @@ const App = () => {
 	}, [fetchUserInfo]);
 
 	console.log(currentUser);
+	console.log("niggas is in the app.jsx files");
 
 	if (isLoading) return <div className="loading">Loading...</div>;
 	return (

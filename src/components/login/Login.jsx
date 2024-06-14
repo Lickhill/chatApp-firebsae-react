@@ -9,7 +9,10 @@ import {
 import { auth, db } from "../../lib/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import upload from "../../lib/upload";
+import { useUserStore } from "../../lib/userStore";
 const Login = () => {
+	const { currentUser } = useUserStore();
+
 	const [avatar, setavatar] = useState({
 		file: null,
 		url: "",
@@ -51,7 +54,14 @@ const Login = () => {
 				email,
 				password
 			);
-			const imgUrl = await upload(avatar.file);
+			// Define a default avatar URL
+			let imgUrl = "./avatar.png"; // Replace with your actual default avatar image URL
+
+			// Attempt to upload the avatar if a file is selected
+			if (avatar.file) {
+				imgUrl = await upload(avatar.file);
+			}
+
 			await setDoc(doc(db, "users", res.user.uid), {
 				username,
 				email,
@@ -60,12 +70,16 @@ const Login = () => {
 				blocked: [],
 			});
 
+			console.log("niggas");
+
 			await setDoc(doc(db, "userchats", res.user.uid), {
 				chats: [],
 			});
 			toast.success("Account created successfully");
 		} catch (err) {
 			console.log(err);
+			console.log("niggas catch");
+
 			toast.error(err.message);
 		} finally {
 			setloading(false);
@@ -74,12 +88,16 @@ const Login = () => {
 
 	const handelLogin = async (e) => {
 		e.preventDefault();
+
 		setloading(true);
 		const formData = new FormData(e.target);
 		const { email, password } = Object.fromEntries(formData);
 		try {
 			await signInWithEmailAndPassword(auth, email, password);
+			console.log("loginniggertry");
+			console.log(currentUser);
 		} catch (err) {
+			console.log("loginniggercatch");
 			console.log(err);
 			toast.error(err.message);
 		} finally {
