@@ -1,6 +1,15 @@
 import React, { useState } from "react";
 import "./adduser.css";
-import { collection, getDoc, getDocs, query, where } from "firebase/firestore";
+import {
+	collection,
+	doc,
+	getDoc,
+	getDocs,
+	query,
+	serverTimestamp,
+	setDoc,
+	where,
+} from "firebase/firestore";
 import { db } from "../../../../lib/firebase";
 import { toast } from "react-toastify";
 
@@ -29,8 +38,18 @@ const AddUser = () => {
 		}
 	};
 
-	const handleAdd = async (e) => {
+	const handleAdd = async () => {
+		const chatRef = collection(db, "chats");
+		const userChatRef = collection(db, "userchats");
 		try {
+			const newChatRef = doc(chatRef);
+
+			await setDoc(newChatRef, {
+				createdAt: serverTimestamp(),
+				messages: [],
+			});
+
+			console.log(newChatRef.id);
 		} catch (err) {
 			console.log(err);
 		}
