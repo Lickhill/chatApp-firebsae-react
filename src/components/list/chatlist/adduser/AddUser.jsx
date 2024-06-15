@@ -2,35 +2,44 @@ import React, { useState } from "react";
 import "./adduser.css";
 import { collection, getDoc, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../../../lib/firebase";
+import { toast } from "react-toastify";
 
 const AddUser = () => {
 	const [user, setUser] = useState(null);
-	const handlesearch = async (e) => {
+	const handleSearch = async (e) => {
 		e.preventDefault();
+
 		const formData = new FormData(e.target);
 		const username = formData.get("username");
 
 		try {
-			// Create a reference to the cities collection
-			console.log("nigga");
 			const userRef = collection(db, "users");
 
-			// Create a query against the collection.
 			const q = query(userRef, where("username", "==", username));
 
 			const querySnapShot = await getDocs(q);
+
 			if (!querySnapShot.empty) {
-				console.log("nigger");
 				setUser(querySnapShot.docs[0].data());
+			} else {
+				toast.info("No user found by this name...");
 			}
 		} catch (err) {
 			console.log(err);
 		}
 	};
+
+	const handleAdd = async (e) => {
+		try {
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 	return (
 		<div className="addUser">
-			<form onSubmit={handlesearch}>
-				<input type="text" placeholder="Username" name="Username" />
+			<form onSubmit={handleSearch}>
+				<input type="text" placeholder="Username" name="username" />
 				<button type="submit">Search User</button>
 			</form>
 			{user && (
@@ -42,7 +51,7 @@ const AddUser = () => {
 						/>
 						<span>{user.username}</span>
 					</div>
-					<button>Add User</button>
+					<button onClick={handleAdd}>Add User</button>
 				</div>
 			)}
 		</div>
